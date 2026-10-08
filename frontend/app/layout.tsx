@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
 import "./globals.css";
-import { SidebarNavigation } from "@/components/SidebarNavigation";
+import type { Metadata } from "next";
+import { AppShell } from "@/components/AppShell";
 
 export const metadata: Metadata = {
   title: "Nexus Orchestrator | Multi-Agent Zero-Touch Compliance Analyst",
@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark h-full bg-black">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -27,13 +27,8 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-background font-sans antialiased bg-cyber-grid">
-        <div className="flex min-h-screen">
-          <SidebarNavigation />
-          <div className="flex-1 pl-72 flex flex-col min-h-screen">
-            <main className="flex-1">{children}</main>
-          </div>
-        </div>
+      <body className="h-full bg-black text-white font-sans antialiased bg-cyber-grid">
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

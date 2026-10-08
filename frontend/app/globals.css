@@ -2,15 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: 224 71% 4%;
-  --foreground: 213 31% 91%;
-}
-
+html,
 body {
-  color: #f1f5f9;
-  background: #090d16;
-  min-height: 100vh;
+  height: 100%;
+  background: #000;
+  color: #fff;
   font-feature-settings: "rlig" 1, "calt" 1;
 }
 

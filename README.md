@@ -4,19 +4,57 @@ Nexus Orchestrator is a production-grade multi-agent LLM orchestration platform 
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ System Architecture & Visual Flow
 
 ```mermaid
 graph TD
-    A[Next.js 14+ Frontend\nDashboard & Intake Form] -->|POST /api/v1/vendors/analyze| B[FastAPI Backend\nNexus Orchestrator]
-    B -->|Async Pipeline| C[Agent 1: The Router\nNVIDIA Nemotron Nano]
-    C -->|Entity & Industry Scope| D[Agent 2: Web Researcher\nNVIDIA Nemotron Super + Tavily API]
-    D -->|Live Adverse Media & SEC Fines| E[Agent 3: Legal Analyst\nNVIDIA Nemotron 3 Ultra]
-    E -->|Cross-Examined Risk Matrix| F[Scoring Engine\nTrust Score 0-100 & Flagged Clauses]
-    F -->|Persist Reasoning Chain| G[Supabase / PostgreSQL\nvendors, agent_logs, flagged_clauses]
-    F -->|Trust Score < Alert Threshold| H[Autonomous n8n Webhook\nSlack / WhatsApp Alerts]
-    G -.->|Real-time Streaming| I[AgentLiveTerminal UI\n/vendor/id]
+    A[3D Landing Portal\nReact Three Fiber + Hero CTA] -->|Click Launch System| B[Cinematic Boot Sequence\n/boot - Monospace Terminal]
+    B -->|Timed Handoff 800ms| C[Compliance Command Center\n/dashboard]
+    C -->|Onboard Action| D[Intake Portal\n/onboard]
+    D -->|POST /api/v1/vendors/analyze| E[FastAPI Backend\nNexus Orchestrator Engine]
+    E -->|Async Pipeline| F[Agent 1: The Router\nNVIDIA Nemotron Nano]
+    F -->|Entity & Industry Scope| G[Agent 2: Web Researcher\nNVIDIA Nemotron Super + Tavily API]
+    G -->|Live Adverse Media & SEC Fines| H[Agent 3: Legal Analyst\nNVIDIA Nemotron 3 Ultra]
+    H -->|Cross-Examined Risk Matrix| I[Scoring Engine\nTrust Score 0-100 & Flagged Clauses]
+    I -->|Persist Reasoning Chain| J[Supabase / PostgreSQL\nvendors, agent_logs, flagged_clauses]
+    I -->|Trust Score < Alert Threshold| K[Autonomous n8n Webhook\nSlack / WhatsApp Alerts]
+    J -.->|Real-time Streaming| L[AgentLiveTerminal UI\n/vendor/id]
 ```
+
+---
+
+## 🌟 Application Pages & Routes
+
+1. **`/` (3D Interactive Landing Page)**:
+   - React Three Fiber 3D Canvas rendering a futuristic cyber grid, glowing floating particles, and rotating geodesic wireframe core reacting to mouse parallax.
+   - High-contrast Hero section with magnetic "Launch System" CTA button featuring glowing border sweep.
+   - Live metrics showcase and 3-agent swarm telemetry preview.
+2. **`/boot` (Cinematic Boot Sequence)**:
+   - Full-screen dark terminal with monospace typography (`JetBrains Mono`).
+   - Animated typing simulation with blinking cursor:
+     - `> Initializing Nexus Orchestrator...`
+     - `> System Status: OK`
+     - `> Connecting to secure mainframe...`
+     - `> Loading console...`
+     - `> 103 automated tests, all passing.`
+   - Synchronized telemetry progress bar (0% → 100%).
+   - Automatic 800ms hold followed by a smooth fade-out / slide-up handoff to `/dashboard`.
+3. **`/dashboard` (Command Center)**:
+   - Top metrics StatCards (Total Ingested Vendors, High Risk & Alerted, Average Score, Legal Hours Saved).
+   - Interactive VendorDataTable with live search, status filters, sorting, and direct dossier review.
+4. **`/onboard` (Vendor Contract Intake)**:
+   - Drag-and-drop PDF and TXT contract upload with automatic text extraction.
+   - 1-Click Benchmark MSA Templates (Apex Cloud Critical Risk, PayGate Moderate Risk, Nordic Sentinel Safe).
+   - Form validation powered by Zod (`VendorUploadSchema`).
+5. **`/vendor/[id]` (Vendor Compliance Dossier)**:
+   - Circular animated `ScoreGauge` with visual risk badges and domain breakdowns.
+   - Real-time `AgentLiveTerminal` streaming chronological reasoning logs.
+   - `ClauseHighlighterCard` with domain and severity filters (InfoSec, Financial, Legal, Regulatory).
+   - Live Nemotron Super + Tavily OSINT reputation card.
+6. **`/settings` (Configuration & Integrations)**:
+   - n8n Webhook URL configuration with test dispatch button.
+   - Trust Score alert threshold slider (default 70).
+   - AI infrastructure health telemetry.
 
 ---
 
@@ -43,119 +81,31 @@ The Legal Analyst categorizes all identified liabilities into 4 strict domains:
 
 ## 🚀 Quickstart & Running Locally
 
-### 1. Backend (FastAPI + Python 3.11+)
+### 1. Package Installation
 
 ```bash
-cd backend
+# Frontend
+cd frontend
+npm install framer-motion three @types/three @react-three/fiber@^8.16.8 @react-three/drei@^9.106.0 --legacy-peer-deps
+npm install
+
+# Backend
+cd ../backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-### 2. Frontend (Next.js 14 App Router + Tailwind + shadcn)
+### 2. Launching the Platform
 
 ```bash
+# Terminal 1: FastAPI Backend
+cd backend
+./venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+
+# Terminal 2: Next.js Frontend
 cd frontend
-npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## ⚙️ Environment Variables Template
-
-### Backend (`backend/.env`)
-```bash
-PORT=8000
-FRONTEND_URL=http://localhost:3000
-
-# Supabase (PostgreSQL) - Automatic fallback to SQLite if unconfigured
-SUPABASE_URL=your_supabase_project_url
-SUPABASE_KEY=your_supabase_service_role_key
-
-# Nebius Token Factory (NVIDIA Nemotron Endpoints)
-NEBIUS_API_KEY=your_nebius_api_key
-NEBIUS_BASE_URL=https://api.studio.nebius.ai/v1/
-
-# Model Configurations
-ROUTER_MODEL=nvidia/llama-3.1-nemotron-70b-instruct
-RESEARCHER_MODEL=nvidia/llama-3.1-nemotron-70b-instruct
-ANALYST_MODEL=nvidia/llama-3.1-nemotron-70b-instruct
-
-# Tavily Search API
-TAVILY_API_KEY=your_tavily_api_key
-
-# n8n Webhook Settings
-DEFAULT_WEBHOOK_URL=
-DEFAULT_ALERT_THRESHOLD=70
-```
-
-### Frontend (`frontend/.env.local`)
-```bash
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
-```
-
----
-
-## 🗄️ PostgreSQL Database Schema (`schema.sql`)
-
-```sql
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-CREATE TABLE public.vendors (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    name TEXT NOT NULL,
-    status TEXT NOT NULL DEFAULT 'PENDING',
-    contract_text TEXT,
-    trust_score INTEGER,
-    reputation_summary TEXT,
-    overall_reasoning TEXT,
-    industry TEXT,
-    legal_entity_name TEXT,
-    is_alert_triggered BOOLEAN DEFAULT FALSE,
-    error_message TEXT
-);
-
-CREATE TABLE public.agent_logs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    vendor_id UUID NOT NULL REFERENCES public.vendors(id) ON DELETE CASCADE,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    agent_name TEXT NOT NULL,
-    log_message TEXT NOT NULL,
-    metadata JSONB
-);
-
-CREATE TABLE public.flagged_clauses (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    vendor_id UUID NOT NULL REFERENCES public.vendors(id) ON DELETE CASCADE,
-    domain TEXT NOT NULL,
-    severity TEXT NOT NULL,
-    clause_text TEXT NOT NULL,
-    agent_reasoning TEXT NOT NULL
-);
-
-CREATE TABLE public.app_settings (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    webhook_url TEXT DEFAULT '',
-    alert_threshold INTEGER DEFAULT 70,
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-```
-
----
-
-## 📡 API Endpoints
-
-- `POST /api/v1/vendors/analyze`: Ingests contract text and vendor name, spawns background multi-agent pipeline.
-- `GET /api/v1/vendors`: Returns list of all vendors with status and trust scores.
-- `GET /api/v1/vendors/{vendor_id}`: Returns complete vendor dossier, reputation report, and flagged clauses.
-- `GET /api/v1/vendors/{vendor_id}/logs`: Returns chronological agent logs for real-time streaming.
-- `POST /api/v1/extract`: Parses uploaded PDF or TXT contract files.
-- `GET /api/v1/settings`: Fetches n8n webhook URL and alert threshold.
-- `POST /api/v1/settings/webhook`: Updates n8n webhook URL and alert threshold.
-- `POST /api/v1/settings/test-webhook`: Dispatches diagnostic alert payload to verify webhook connectivity.
+Open [http://localhost:3000](http://localhost:3000) for the 3D Landing Page, click **"Launch System"** to experience the cinematic boot sequence, or go directly to [http://localhost:3000/dashboard](http://localhost:3000/dashboard).

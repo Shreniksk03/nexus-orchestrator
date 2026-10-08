@@ -13,6 +13,8 @@ import {
   ChevronRight,
   Activity,
   Layers,
+  Sparkles,
+  Globe,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -26,7 +28,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   {
     name: "Command Center",
-    href: "/",
+    href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
@@ -41,6 +43,11 @@ const NAV_ITEMS: NavItem[] = [
     icon: Sliders,
     badge: "n8n",
   },
+  {
+    name: "3D Landing Portal",
+    href: "/",
+    icon: Globe,
+  },
 ];
 
 export function SidebarNavigation() {
@@ -50,7 +57,7 @@ export function SidebarNavigation() {
     <aside className="fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-surface-border bg-background/95 backdrop-blur-md">
       {/* Brand Header */}
       <div className="flex h-20 items-center justify-between border-b border-surface-border px-6">
-        <Link href="/" className="group flex items-center gap-3">
+        <Link href="/dashboard" className="group flex items-center gap-3">
           <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 via-brand to-purple-600 p-0.5 shadow-lg shadow-brand/25 transition-transform duration-300 group-hover:scale-105">
             <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-background">
               <ShieldCheck className="h-5 w-5 text-brand-light" />
